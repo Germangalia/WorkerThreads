@@ -1,5 +1,7 @@
 package com.example.ggalia84.workerthreads;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,6 +10,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+
+import java.io.InputStream;
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,5 +54,32 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private Bitmap loadImageFromNetwork(String url){
+        try {
+            Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(url).getContent());
+            return bitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    ImageView mImageView = (ImageView) findViewById(R.id.imageView);
+
+
+    public void onClick(View v) {
+        new Thread(new Runnable() {
+            public void run() {
+                final Bitmap bitmap = loadImageFromNetwork("http://example.com/image.png");
+                mImageView.post(new Runnable() {
+                    public void run() {
+                        mImageView.setImageBitmap(bitmap);
+                    }
+                });
+            }
+        }).start();
     }
 }
