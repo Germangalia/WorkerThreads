@@ -17,6 +17,8 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ImageView mImageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,14 +26,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        mImageView = (ImageView) findViewById(R.id.imageView);
     }
 
     @Override
@@ -67,13 +62,11 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-    ImageView mImageView = (ImageView) findViewById(R.id.imageView);
-
 
     public void onClick(View v) {
         new Thread(new Runnable() {
             public void run() {
-                final Bitmap bitmap = loadImageFromNetwork("http://example.com/image.png");
+                final Bitmap bitmap = loadImageFromNetwork("http://www.techotopia.com/images/f/f7/Android_activity_lifecycle_diagram.png");
                 mImageView.post(new Runnable() {
                     public void run() {
                         mImageView.setImageBitmap(bitmap);
